@@ -1,0 +1,144 @@
+<!-- Enhanced Product Header Component -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+  <!-- Product Info Section -->
+  <div class="flex-1">
+    <!-- Default state when no product is selected -->
+    <div id="no-product-state" class="flex items-center">
+      <div class="flex-shrink-0">
+        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+          <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+          </svg>
+        </div>
+      </div>
+      <div class="ml-4">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900" id="product-name">No product selected</h1>
+        <p class="text-gray-600 mt-1" id="product-handle">Choose a product from the sidebar to view and manage its categories</p>
+      </div>
+    </div>
+    
+    <!-- Selected product state (hidden by default) -->
+    <div id="product-selected-state" class="hidden flex items-center">
+      <div class="flex-shrink-0">
+        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+          <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+          </svg>
+        </div>
+      </div>
+      <div class="ml-4">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900" id="selected-product-name"></h1>
+        <p class="text-gray-600 mt-1" id="selected-product-handle"></p>
+        <div class="flex items-center mt-2">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            Active
+          </span>
+          <span class="ml-3 text-sm text-gray-500" id="last-modified">
+            Last modified: <span id="last-modified-date">--</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Quick Actions for Selected Product -->
+  <div id="product-actions" class="hidden mt-4 sm:mt-0 sm:ml-6 flex-shrink-0">
+    <div class="flex space-x-3">
+      <button id="clear-product-selection" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+        Clear Selection
+      </button>
+      <button id="view-product-details" class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+        </svg>
+        View Details
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Enhanced JavaScript for product header functionality -->
+<script>
+  // Enhanced product header management
+  (function() {
+    const noProductState = document.getElementById('no-product-state');
+    const productSelectedState = document.getElementById('product-selected-state');
+    const productActions = document.getElementById('product-actions');
+    const clearSelectionBtn = document.getElementById('clear-product-selection');
+    const viewDetailsBtn = document.getElementById('view-product-details');
+    
+    // Function to show selected product state
+    window.showSelectedProduct = function(product) {
+      if (!product) return;
+      
+      // Update product information
+      document.getElementById('selected-product-name').textContent = product.product_name || product.name;
+      document.getElementById('selected-product-handle').textContent = product.handle || `Product ID: ${product.product_id}`;
+      
+      // Update last modified date
+      const lastModified = product.last_modified || product.updated_at;
+      if (lastModified) {
+        const date = new Date(lastModified);
+        document.getElementById('last-modified-date').textContent = date.toLocaleDateString();
+      }
+      
+      // Toggle states
+      noProductState.classList.add('hidden');
+      productSelectedState.classList.remove('hidden');
+      productActions.classList.remove('hidden');
+      
+      // Animate transition
+      productSelectedState.style.opacity = '0';
+      setTimeout(() => {
+        productSelectedState.style.opacity = '1';
+      }, 100);
+    };
+    
+    // Function to clear product selection
+    window.clearProductSelection = function() {
+      // Toggle states
+      productSelectedState.classList.add('hidden');
+      productActions.classList.add('hidden');
+      noProductState.classList.remove('hidden');
+      
+      // Clear product select dropdown
+      const productSelect = document.getElementById('productSelect');
+      if (productSelect) {
+        productSelect.value = '';
+      }
+      
+      // Trigger any existing clear functionality
+      if (window.clearSelection && typeof window.clearSelection === 'function') {
+        window.clearSelection();
+      }
+    };
+    
+    // Event listeners
+    if (clearSelectionBtn) {
+      clearSelectionBtn.addEventListener('click', clearProductSelection);
+    }
+    
+    if (viewDetailsBtn) {
+      viewDetailsBtn.addEventListener('click', function() {
+        // You could implement a product details modal or redirect here
+        console.log('View product details clicked');
+      });
+    }
+    
+    // Listen for product selection changes from the main application
+    document.addEventListener('productSelected', function(event) {
+      showSelectedProduct(event.detail);
+    });
+    
+    document.addEventListener('productCleared', function() {
+      clearProductSelection();
+    });
+  })();
+</script>

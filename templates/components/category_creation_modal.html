@@ -1,0 +1,40 @@
+<!-- Category Creation Modal Component -->
+<div id="categoryModal" class="hidden fixed inset-0 bg-brand-dark/70 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+    <div class="relative bg-brand-white rounded-xl shadow-2xl p-8 border border-brand-grey-light w-full max-w-md mx-4 animate-scale-in">
+        <div>
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-brand-dark">Create New Category</h3>
+                <button id="cancelCategoryBtn" class="text-brand-grey-medium hover:text-brand-dark transition-colors p-1">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <form id="categoryForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-brand-dark mb-2">Category Name</label>
+                    <input type="text" id="categoryName" class="input-brand" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-brand-dark mb-2">Category Level</label>
+                    <select id="categoryLevel" class="input-brand" required>
+                        <option value="">Select level...</option>
+                        <option value="1">Level 1 (Top Level)</option>
+                        <option value="2">Level 2 (Sub Category)</option>
+                        <option value="3">Level 3 (Detailed Category)</option>
+                    </select>
+                </div>
+                <div id="parentCategoryDiv" class="hidden">
+                    <label class="block text-sm font-bold text-brand-dark mb-2">Parent Category</label>
+                    <select id="parentCategory" class="input-brand">
+                        <option value="">Select parent category...</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-3 pt-6">
+                    <button type="button" id="cancelCategoryBtn2" class="btn-brand-ghost">Cancel</button>
+                    <button type="submit" class="btn-brand-primary">Create Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

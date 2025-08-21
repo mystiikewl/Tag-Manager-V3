@@ -1,0 +1,468 @@
+# Frontend Styling Guide: Apple-Inspired with Bold Red Accents (Tailwind CSS v3)
+
+## 1. Core Philosophy
+
+This guide blends Apple's renowned design principles of **clarity, minimalism, and user-focus** with a **bold, high-contrast aesthetic** defined by a white and dark primary palette, strong typography, and striking red accents. The goal is to create a visually confident, modern, and highly legible interface that is both sophisticated and impactful.
+
+**Key Principles:**
+
+* **Clarity First:** Design decisions should always prioritize clear communication and ease of understanding.
+* **Intentional Boldness:** Bold typography and red accents are used purposefully to draw attention, establish hierarchy, and create a strong visual identity, not to overwhelm.
+* **Minimalist Foundation:** Underlying the boldness is a commitment to clean layouts, ample white space, and a reduction of unnecessary visual clutter, inspired by Apple's approach.
+* **Product/Content as Hero:** The design should support and elevate the main content or product being presented.
+* **Consistency:** A consistent application of these styles across all elements will create a cohesive and professional user experience.
+* **Accessibility:** Ensure that the bold aesthetic and colour choices maintain high levels of accessibility for all users.
+
+## 2. Colour Palette
+
+This palette is designed for high contrast and impactful accents. We'll define specific shades and their usage.
+
+**Tailwind `tailwind.config.js` Integration:**
+
+It's highly recommended to add these colours to your `tailwind.config.js` for easy use:
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        'brand-white': '#FFFFFF',
+        'brand-near-white': '#F7F7F7', // Softer white for backgrounds
+        'brand-dark': '#1A1A1A',     // Deep, rich dark
+        'brand-near-dark': '#2C2C2C', // Slightly softer dark for UI elements
+        'brand-red': '#FF3B30',       // Apple's vibrant red, or your preferred shade
+        'brand-red-dark': '#D63027',  // Darker red for hover/active states
+        'brand-grey-light': '#E5E5EA', // Light grey for borders, dividers
+        'brand-grey-medium': '#8E8E93',// Medium grey for secondary text
+        'brand-grey-dark': '#3A3A3C',  // Dark grey for subtle backgrounds on dark themes
+        // Semantic colors
+        'brand-success': '#34C759', // Apple's green
+        'brand-warning': '#FF9500', // Apple's orange
+      },
+    },
+  },
+  plugins: [],
+}
+Palette Breakdown:
+
+Primary Backgrounds:
+bg-brand-white (Default light mode background)
+bg-brand-near-white (Slightly off-white for subtle differentiation in light mode)
+bg-brand-dark (Default dark mode background, or for dark sections in light mode)
+Primary Text:
+On bg-brand-white / bg-brand-near-white: text-brand-dark
+On bg-brand-dark / bg-brand-near-dark: text-brand-white
+Accent Colour (Red):
+brand-red: For primary calls-to-action, active indicators, important highlights, error states.
+bg-brand-red, text-brand-red, border-brand-red
+brand-red-dark: For hover/active states on red elements.
+hover:bg-brand-red-dark, active:bg-brand-red-dark
+UI Elements & Secondary Backgrounds:
+bg-brand-near-dark: For cards, sidebars, or distinct sections on a bg-brand-dark background.
+bg-brand-white / bg-brand-near-white: For cards or elevated elements on light backgrounds.
+Borders & Dividers:
+border-brand-grey-light (On light backgrounds)
+border-brand-grey-dark (On dark backgrounds, or border-brand-near-dark if more subtle)
+Secondary & Tertiary Text:
+text-brand-grey-medium (For less important text, captions on both light and dark backgrounds, ensure contrast)
+Focus Rings & Interactive States:
+Use Tailwind's default focus rings or customize them using your brand colours. Red can be used for focus on red-accented interactive elements.
+Example: focus:ring-brand-red focus:ring-2 focus:ring-offset-2
+Semantic Colours:
+brand-success: For success messages, confirmation indicators.
+brand-warning: For warnings or non-critical alerts.
+brand-red: (Already defined) for error messages.
+3. Typography System
+Emphasis on bold, clear, and highly legible typography.
+
+Font Choice:
+
+Primary Sans-Serif:
+Inter: A highly versatile and legible sans-serif font that works well at various weights. It's similar in spirit to Apple's SF Pro. Available via Google Fonts or NPM.
+SF Pro (if feasible): If you can legally use it and have access to the font files.
+Alternatively, choose another modern, geometric, or grotesque sans-serif with a good range of weights, especially bold and extra-bold/black.
+Monospace (Optional): For code snippets or tabular data, a clean monospace font like SF Mono, JetBrains Mono, or Fira Code.
+Tailwind tailwind.config.js Font Family Integration:
+
+JavaScript
+
+// tailwind.config.js
+const defaultTheme = require('tailwindcss/defaultTheme');
+
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', ...defaultTheme.fontFamily.sans], // Set Inter as default sans-serif
+        // mono: ['JetBrains Mono', ...defaultTheme.fontFamily.mono], // If using a custom mono
+      },
+    },
+  },
+  // ...
+}
+Typographic Scale & Styling (Examples):
+
+Prioritise bold weights for headings.
+
+Element	Tailwind Classes (Example)	Notes
+H1	text-4xl md:text-5xl font-extrabold tracking-tight	Strongest visual weight. Keep line-height tight.
+H2	text-3xl md:text-4xl font-bold tracking-tight	Clearly secondary to H1.
+H3	text-2xl md:text-3xl font-semibold	Good for section subheadings.
+H4	text-xl md:text-2xl font-semibold	
+H5	text-lg font-bold	Use bold for emphasis even at smaller heading sizes.
+H6	text-base font-bold uppercase tracking-wider text-brand-grey-medium	For minor headings or labels, consider uppercase and letter spacing.
+Body (p)	text-base lg:text-lg leading-relaxed	Prioritise readability. leading-relaxed or leading-loose.
+Lead (p)	text-lg lg:text-xl text-brand-grey-medium leading-relaxed	For introductory paragraphs, slightly larger and potentially lighter.
+Small	text-sm text-brand-grey-medium	For captions, disclaimers.
+Links	text-brand-red hover:text-brand-red-dark hover:underline font-medium	Clear affordance. Red accent for links.
+
+Export to Sheets
+Line Height & Letter Spacing:
+
+Headings: Generally tighter line height (e.g., leading-tight or 1.1 to 1.3). tracking-tight can also enhance boldness.
+Body Text: More generous line height for readability (e.g., leading-relaxed or 1.6 to 1.8).
+Bold Uppercase: Small amounts of tracking-wider can improve legibility for short uppercase bold text.
+4. Layout & Spacing
+Inspired by Apple, use generous white space and a clear visual structure.
+
+Overall Container: Use a max-width container with horizontal auto margins to center content on larger screens.
+max-w-7xl mx-auto px-4 sm:px-6 lg:px-8
+White Space: Don't be afraid of empty space. It helps reduce cognitive load and directs focus. Use Tailwind's spacing scale (p-, m-, space-y-, space-x-) consistently.
+Sections: Use significant padding for page sections (e.g., py-12 md:py-16 lg:py-20).
+Elements: Ensure adequate spacing between elements.
+Grid Systems: Use Tailwind's grid utilities (grid, grid-cols-, gap-) for complex layouts.
+Responsive Design: Design mobile-first. Use Tailwind's responsive prefixes (sm:, md:, lg:, xl:) extensively.
+5. Component Styling Examples
+Here are examples combining the colour palette, typography, and Tailwind CSS.
+
+A. Buttons:
+
+Primary (Red Accent):
+HTML: <button class="btn btn-primary">Action</button>
+Tailwind:
+HTML
+
+<button class="px-6 py-3 rounded-lg bg-brand-red text-brand-white font-semibold text-base shadow-md hover:bg-brand-red-dark focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 focus:ring-offset-brand-white transition-colors duration-150 ease-in-out">
+  Primary Action
+</button>
+Secondary (Dark/Light context-aware):
+On Light BG (Dark button):
+HTML
+
+<button class="px-6 py-3 rounded-lg bg-brand-near-dark text-brand-white font-semibold text-base shadow-md hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-near-dark focus:ring-offset-2 focus:ring-offset-brand-white transition-colors duration-150 ease-in-out">
+  Secondary Action
+</button>
+On Dark BG (Outlined with Red Accent, or subtle grey):
+HTML
+
+<button class="px-6 py-3 rounded-lg border-2 border-brand-red text-brand-red font-semibold text-base hover:bg-brand-red hover:text-brand-white focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 focus:ring-offset-brand-dark transition-colors duration-150 ease-in-out">
+  Secondary Action (Red Outline)
+</button>
+
+<button class="px-6 py-3 rounded-lg bg-brand-grey-dark text-brand-near-white font-semibold text-base shadow-md hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-brand-grey-medium focus:ring-offset-2 focus:ring-offset-brand-dark transition-colors duration-150 ease-in-out">
+  Secondary Action (Grey)
+</button>
+Tertiary/Ghost (Subtle):
+On Light BG:
+HTML
+
+<button class="px-4 py-2 rounded-lg text-brand-dark hover:bg-brand-grey-light font-medium focus:outline-none focus:ring-2 focus:ring-brand-grey-medium focus:ring-offset-2 focus:ring-offset-brand-white transition-colors duration-150 ease-in-out">
+  Tertiary Action
+</button>
+On Dark BG:
+HTML
+
+<button class="px-4 py-2 rounded-lg text-brand-white hover:bg-brand-grey-dark font-medium focus:outline-none focus:ring-2 focus:ring-brand-grey-medium focus:ring-offset-2 focus:ring-offset-brand-dark transition-colors duration-150 ease-in-out">
+  Tertiary Action
+</button>
+B. Cards & Containers:
+
+Light Mode Card:
+HTML
+
+<div class="bg-brand-white rounded-xl shadow-lg p-6 md:p-8">
+  <h3 class="text-2xl font-bold text-brand-dark mb-3">Card Title</h3>
+  <p class="text-brand-grey-medium leading-relaxed">Card content goes here, providing details and information.</p>
+</div>
+Dark Mode Card (or dark section card):
+HTML
+
+<div class="bg-brand-near-dark rounded-xl shadow-lg p-6 md:p-8">
+  <h3 class="text-2xl font-bold text-brand-white mb-3">Card Title</h3>
+  <p class="text-brand-grey-medium leading-relaxed">Card content goes here, providing details and information.</p>
+</div>
+Consider subtle borders: border border-brand-grey-dark for dark cards if needed.
+C. Navigation Elements:
+
+Header (Light Example):
+HTML
+
+<header class="bg-brand-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <span class="font-extrabold text-2xl text-brand-dark">YourLogo</span>
+      </div>
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-4">
+          <a href="#" class="text-brand-dark hover:text-brand-red px-3 py-2 rounded-md text-sm font-bold">Home</a>
+          <a href="#" class="text-brand-grey-medium hover:text-brand-red px-3 py-2 rounded-md text-sm font-medium">Features</a>
+          <a href="#" class="bg-brand-red text-brand-white px-3 py-2 rounded-md text-sm font-bold hover:bg-brand-red-dark">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+Adapt colours for dark mode headers (bg-brand-dark/80, text-brand-white, etc.).
+Active link styling: text-brand-red font-bold.
+D. Form Inputs & Controls:
+
+Input Field (Light):
+HTML
+
+<div>
+  <label for="email" class="block text-sm font-bold text-brand-dark mb-1">Email</label>
+  <input type="email" name="email" id="email" class="block w-full px-4 py-3 rounded-lg border border-brand-grey-light focus:ring-brand-red focus:border-brand-red shadow-sm sm:text-sm placeholder-brand-grey-medium" placeholder="you@example.com">
+</div>
+Input Field (Dark):
+HTML
+
+<div>
+  <label for="email_dark" class="block text-sm font-bold text-brand-white mb-1">Email</label>
+  <input type="email" name="email_dark" id="email_dark" class="block w-full px-4 py-3 rounded-lg border border-brand-grey-dark bg-brand-near-dark text-brand-white focus:ring-brand-red focus:border-brand-red shadow-sm sm:text-sm placeholder-brand-grey-medium" placeholder="you@example.com">
+</div>
+Checkbox/Radio (with red accent):
+Requires custom styling or a Tailwind plugin like @tailwindcss/forms which you can then customize.
+Focus on making the checked state use brand-red.
+Example with @tailwindcss/forms (conceptual): class="form-checkbox rounded text-brand-red focus:ring-brand-red"
+E. Modals & Overlays:
+
+Overlay: bg-brand-dark/70 backdrop-blur-sm or bg-black/50 backdrop-blur-sm
+Modal Panel (Light):
+HTML
+
+<div class="bg-brand-white rounded-lg shadow-xl p-6 md:p-8 max-w-lg w-full mx-auto">
+  <h3 class="text-xl font-bold text-brand-dark mb-4">Modal Title</h3>
+  {/* ...modal content... */}
+  <div class="mt-6 flex justify-end space-x-3">
+    <button class="px-4 py-2 rounded-lg text-brand-dark hover:bg-brand-grey-light font-medium ...">Cancel</button>
+    <button class="px-4 py-2 rounded-lg bg-brand-red text-brand-white font-semibold hover:bg-brand-red-dark ...">Confirm</button>
+  </div>
+</div>
+F. Three Column Layout:
+
+Uses Tailwind's grid system. Adjust column spans for different breakpoints.
+HTML
+
+<div class="container mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+    <div class="bg-brand-white rounded-lg shadow p-6">
+      <h4 class="text-lg font-bold text-brand-dark mb-2">Column 1 Title</h4>
+      <p class="text-sm text-brand-grey-medium">Content for the first column.</p>
+    </div>
+    <div class="bg-brand-white rounded-lg shadow p-6">
+      <h4 class="text-lg font-bold text-brand-dark mb-2">Column 2 Title</h4>
+      <p class="text-sm text-brand-grey-medium">Content for the second column.</p>
+    </div>
+    <div class="bg-brand-white rounded-lg shadow p-6">
+      <h4 class="text-lg font-bold text-brand-dark mb-2">Column 3 Title</h4>
+      <p class="text-sm text-brand-grey-medium">Content for the third column.</p>
+    </div>
+  </div>
+</div>
+For dark mode, use bg-brand-near-dark for columns and adjust text colours.
+G. Sidebar:
+
+Typically used alongside a main content area.
+Light Mode Sidebar:
+HTML
+
+<div class="flex h-screen">
+  <aside class="w-64 bg-brand-near-white p-6 shadow-lg">
+    <h3 class="text-xl font-extrabold text-brand-dark mb-6">Navigation</h3>
+    <nav class="space-y-2">
+      <a href="#" class="block px-3 py-2 rounded-md text-brand-dark font-bold hover:bg-brand-grey-light hover:text-brand-red">Dashboard</a>
+      <a href="#" class="block px-3 py-2 rounded-md text-brand-grey-medium font-medium hover:bg-brand-grey-light hover:text-brand-red">Analytics</a>
+      <a href="#" class="block px-3 py-2 rounded-md text-brand-red font-bold">Settings (Active)</a>
+    </nav>
+  </aside>
+  <main class="flex-1 p-10 bg-brand-white">
+    <h1 class="text-3xl font-bold text-brand-dark">Main Content Area</h1>
+  </main>
+</div>
+Dark Mode Sidebar:
+HTML
+
+ <div class="flex h-screen bg-brand-dark">
+  <aside class="w-64 bg-brand-near-dark p-6 shadow-lg">
+    <h3 class="text-xl font-extrabold text-brand-white mb-6">Navigation</h3>
+    <nav class="space-y-2">
+      <a href="#" class="block px-3 py-2 rounded-md text-brand-white font-bold hover:bg-brand-grey-dark hover:text-brand-red">Dashboard</a>
+      <a href="#" class="block px-3 py-2 rounded-md text-brand-grey-medium font-medium hover:bg-brand-grey-dark hover:text-brand-red">Analytics</a>
+      <a href="#" class="block px-3 py-2 rounded-md text-brand-red font-bold">Settings (Active)</a>
+    </nav>
+  </aside>
+  <main class="flex-1 p-10">
+    <h1 class="text-3xl font-bold text-brand-white">Main Content Area</h1>
+  </main>
+</div>
+H. Dropdown Filter:
+
+Requires JavaScript for functionality. Styling focuses on the button and the dropdown panel.
+Dropdown Button (Light):
+HTML
+
+<div class="relative inline-block text-left">
+  <button type="button" class="inline-flex justify-center w-full rounded-md border border-brand-grey-light shadow-sm px-4 py-2 bg-brand-white text-sm font-medium text-brand-dark hover:bg-brand-near-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-brand-grey-light focus:ring-brand-red" id="options-menu" aria-haspopup="true" aria-expanded="true">
+    Filter Options
+    <svg class="-mr-1 ml-2 h-5 w-5" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+    </svg>
+  </button>
+  <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-brand-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+    <div class="py-1" role="none">
+      <a href="#" class="block px-4 py-2 text-sm text-brand-dark hover:bg-brand-near-white hover:text-brand-red" role="menuitem">Option 1</a>
+      <a href="#" class="block px-4 py-2 text-sm text-brand-red font-semibold" role="menuitem">Option 2 (Active)</a>
+    </div>
+  </div>
+</div>
+Dropdown Button (Dark): Adapt bg-brand-near-dark, text-brand-white, border-brand-grey-dark, dropdown panel bg-brand-near-dark.
+I. Collection Tags (Product Cards):
+
+These are specialized cards, often image-focused.
+Product Card (Light):
+HTML
+
+<div class="bg-brand-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-200 ease-in-out">
+  <img class="w-full h-48 object-cover" src="[https://placehold.co/600x400/E5E5EA/1A1A1A?text=Product+Image](https://placehold.co/600x400/E5E5EA/1A1A1A?text=Product+Image)" alt="Product Name">
+  <div class="p-4 md:p-6">
+    <h4 class="text-lg font-bold text-brand-dark truncate">Awesome Product Title</h4>
+    <p class="text-sm text-brand-grey-medium mt-1">Short description or category</p>
+    <div class="mt-3 flex items-center justify-between">
+      <span class="text-xl font-extrabold text-brand-dark">$99.99</span>
+      <button class="px-4 py-1.5 rounded-md bg-brand-red text-brand-white text-xs font-semibold hover:bg-brand-red-dark transition-colors">
+        Add
+      </button>
+    </div>
+  </div>
+</div>
+Product Card (Dark): Use bg-brand-near-dark, text-brand-white for title/price, text-brand-grey-medium for description.
+J. Notifications / Alerts:
+
+Include an icon and a close button.
+Error Notification (Red Accent):
+HTML
+
+<div class="bg-brand-red/10 border-l-4 border-brand-red text-brand-red p-4 rounded-md shadow-md" role="alert">
+  <div class="flex">
+    <div class="py-1">
+      <svg class="h-6 w-6 text-brand-red mr-3" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    </div>
+    <div>
+      <p class="font-bold">Error Occurred</p>
+      <p class="text-sm">Something went wrong. Please try again.</p>
+    </div>
+    <button class="ml-auto -mx-1.5 -my-1.5 bg-transparent text-brand-red hover:bg-brand-red/20 rounded-lg focus:ring-2 focus:ring-brand-red p-1.5 inline-flex h-8 w-8" aria-label="Dismiss">
+        <span class="sr-only">Dismiss</span>
+        <svg class="h-5 w-5" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+    </button>
+  </div>
+</div>
+Success Notification (Green Accent):
+Use bg-brand-success/10, border-brand-success, text-brand-success. Replace icon with a checkmark.
+HTML
+
+<div class="bg-brand-success/10 border-l-4 border-brand-success text-brand-success p-4 rounded-md shadow-md" role="alert">
+  <div class="flex">
+    <div class="py-1">
+      <svg class="h-6 w-6 text-brand-success mr-3" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    </div>
+    <div>
+      <p class="font-bold">Success!</p>
+      <p class="text-sm">Your action was completed successfully.</p>
+    </div>
+     <button class="ml-auto -mx-1.5 -my-1.5 bg-transparent text-brand-success hover:bg-brand-success/20 rounded-lg focus:ring-2 focus:ring-brand-success p-1.5 inline-flex h-8 w-8" aria-label="Dismiss">
+        <span class="sr-only">Dismiss</span>
+        <svg class="h-5 w-5" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+    </button>
+  </div>
+</div>
+Warning/Info Notifications:
+Use brand-warning (orange) for warnings.
+Use a neutral grey or blue for informational messages.
+Adapt background, border, text colours, and icons accordingly.
+6. Iconography & Imagery
+Icons:
+Use a clean, modern icon set (e.g., Heroicons, Feather Icons, or custom SVG icons).
+Style with text-brand-dark, text-brand-white, or text-brand-red for accents.
+Ensure icons are visually balanced with your bold typography.
+Imagery:
+High-quality, crisp images are essential, following Apple's lead.
+Ensure images are well-composed and fit the minimalist aesthetic.
+Use images with clear subjects and uncluttered backgrounds.
+7. Interaction States
+Crucial for usability.
+
+Hover: Provide clear visual feedback.
+Buttons: Darken background (e.g., bg-brand-red to bg-brand-red-dark).
+Links: Change colour or add/remove underline (hover:text-brand-red-dark hover:underline).
+Cards/Interactive elements: Subtle lift (e.g., hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ease-in-out).
+Focus: Use highly visible focus rings, especially for keyboard navigation.
+Tailwind's default focus:ring-2 focus:ring-offset-2 is a good start. Customize the ring colour to focus:ring-brand-red or a suitable contrasting colour.
+Active: Indicate when an element is pressed.
+Buttons: Slightly darker background or inset shadow. active:bg-brand-red-dark or active:scale-95 transition-transform duration-75.
+Disabled: Clearly indicate non-interactivity.
+opacity-50 cursor-not-allowed. Ensure text contrast remains acceptable.
+8. Accessibility Notes
+Colour Contrast: Your primary white/dark palette should provide excellent contrast. However, pay close attention to:
+text-brand-grey-medium on various backgrounds.
+Red text (text-brand-red) on white/light backgrounds. Ensure it's bold enough or large enough if it doesn't meet AA contrast for normal text.
+Use tools to check contrast ratios (WCAG AA minimums: 4.5:1 for normal text, 3:1 for large text).
+Focus States: Essential for keyboard users. Don't remove outlines without providing a clear alternative.
+Semantic HTML: Use appropriate HTML tags (<nav>, <button>, <main>, etc.) to provide structure for assistive technologies.
+Alt Text: Provide descriptive alt text for all meaningful images.
+9. Tailwind CSS Configuration Tips (tailwind.config.js)
+Recap of key tailwind.config.js extensions:
+
+JavaScript
+
+// tailwind.config.js
+const defaultTheme = require('tailwindcss/defaultTheme');
+
+module.exports = {
+  content: [
+    "./src/**/*.{html,js,jsx,ts,tsx}", // Adjust to your project structure
+  ],
+  theme: {
+    extend: {
+      colors: {
+        'brand-white': '#FFFFFF',
+        'brand-near-white': '#F7F7F7',
+        'brand-dark': '#1A1A1A',
+        'brand-near-dark': '#2C2C2C',
+        'brand-red': '#FF3B30',      // Or your preferred red
+        'brand-red-dark': '#D63027',
+        'brand-grey-light': '#E5E5EA',
+        'brand-grey-medium': '#8E8E93',
+        'brand-grey-dark': '#3A3A3C',
+        'brand-success': '#34C759',
+        'brand-warning': '#FF9500',
+      },
+      fontFamily: {
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        // mono: ['YourMonoFont', ...defaultTheme.fontFamily.mono],
+      },
+      // You can also extend spacing, borderRadius, etc. if needed
+      // borderRadius: {
+      //   'xl': '0.75rem', // Apple often uses slightly more rounded corners
+      //   '2xl': '1rem',
+      // }
+    },
+  },
+  plugins: [
+    require('@tailwindcss/forms'), // Useful for form styling
+    // require('@tailwindcss/typography'), // For styling markdown-generated content
+  ],
+}
+This guide provides a comprehensive starting point. Remember to iterate and test your designs across different devices and user scenarios. Good luck!

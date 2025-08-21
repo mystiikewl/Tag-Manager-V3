@@ -1,0 +1,211 @@
+{% extends "bulk_base.html" %}
+
+{% block content %}
+<!-- Modern Bulk Assignment Interface -->
+<div class="h-screen flex flex-col bg-brand-near-white">
+    <!-- Top Action Bar -->
+    <div class="bg-brand-white border-b border-brand-grey-light px-6 py-4 flex-shrink-0">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold text-brand-dark">Bulk Category Assignment</h1>
+                <div class="text-sm text-brand-grey-medium">
+                    <span id="selection-summary">0 products selected</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <!-- Quick Actions -->
+                <button id="clear-selection" class="btn-brand-ghost text-sm">Clear Selection</button>
+                <button id="save-selection" class="btn-brand-secondary text-sm">Save Selection</button>
+                <button id="assign-categories" class="btn-brand-primary disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    Assign Categories
+                </button>
+            </div>
+        </div>
+        
+        <!-- Breadcrumb Navigation -->
+        <div id="category-breadcrumb" class="mt-3 text-sm text-brand-grey-medium hidden">
+            <nav class="flex items-center space-x-2">
+                <span>Selected Category:</span>
+                <div id="breadcrumb-path" class="flex items-center space-x-2"></div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Resizable Category Panel -->
+        <div id="category-panel" class="bg-brand-white border-r border-brand-grey-light flex flex-col" style="width: 35%; min-width: 300px; max-width: 50%;">
+            <!-- Category Panel Header -->
+            <div class="px-4 py-3 border-b border-brand-grey-light bg-brand-near-white">
+                <div class="flex items-center justify-between">
+                    <h2 class="font-semibold text-brand-dark">Category Tree</h2>
+                    <div class="flex items-center space-x-2">
+                        <button id="expand-all" class="text-xs text-brand-grey-medium hover:text-brand-dark">Expand All</button>
+                        <button id="collapse-all" class="text-xs text-brand-grey-medium hover:text-brand-dark">Collapse All</button>
+                    </div>
+                </div>
+                
+                <!-- Category Search -->
+                <div class="mt-3 relative">
+                    <input type="text" id="category-search" placeholder="Search categories..." 
+                        class="w-full text-sm input-brand pl-8 pr-4 py-2">
+                    <svg class="w-4 h-4 text-brand-grey-medium absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Interactive Category Tree -->
+            <div class="flex-1 overflow-y-auto">
+                <div id="category-tree" class="p-2">
+                    <!-- Dynamic category tree will be rendered here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Resize Handle -->
+        <div id="resize-handle" class="w-1 bg-brand-grey-light hover:bg-brand-grey-medium cursor-col-resize"></div>
+
+        <!-- Product Panel -->
+        <div class="flex-1 flex flex-col bg-brand-white">
+            <!-- Product Panel Header -->
+            <div class="px-6 py-4 border-b border-brand-grey-light bg-brand-near-white">
+                <div class="flex items-center justify-between">
+                    <h2 class="font-semibold text-brand-dark">Products</h2>
+                    <div class="flex items-center space-x-4">
+                        <!-- View Mode Toggle -->
+                        <div class="flex border border-brand-grey-light rounded-lg overflow-hidden">
+                            <button id="list-view" class="px-3 py-1 text-sm bg-brand-red text-white">List</button>
+                            <button id="card-view" class="px-3 py-1 text-sm text-brand-grey-medium hover:bg-brand-near-white">Cards</button>
+                        </div>
+                        
+                        <!-- Product Count -->
+                        <span class="text-sm text-brand-grey-medium">
+                            <span id="visible-count">0</span> of <span id="total-count">0</span> products
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Advanced Filters -->
+                <div class="mt-4 flex items-center space-x-4">
+                    <!-- Product Search -->
+                    <div class="flex-1 relative">
+                        <input type="text" id="product-search" placeholder="Search products by name..." 
+                            class="w-full input-brand pl-8 pr-4 py-2 text-sm">
+                        <svg class="w-4 h-4 text-brand-grey-medium absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+
+                    <!-- Category Filters -->
+                    <select id="category-filter" class="input-brand text-sm py-2 px-3">
+                        <option value="all">All Products</option>
+                        <option value="uncategorized">Uncategorized Only</option>
+                        <option value="categorized">Categorized Only</option>
+                        <option value="multi-category">Multiple Categories</option>
+                    </select>
+
+                    <!-- Batch Selection -->
+                    <div class="flex items-center space-x-2">
+                        <button id="select-all-visible" class="btn-brand-secondary text-sm">Select Visible</button>
+                        <button id="select-filtered" class="btn-brand-secondary text-sm">Select Filtered</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product List/Grid -->
+            <div class="flex-1 overflow-y-auto">
+                <!-- List View -->
+                <div id="product-list-view" class="h-full">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-brand-grey-light">
+                            <thead class="bg-brand-near-white sticky top-0">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">
+                                        <input type="checkbox" id="select-all-checkbox" class="rounded border-brand-grey-light focus:ring-brand-red">
+                                    </th>
+                                    <th class="px-4 py-3 text-left text-xs font-bold text-brand-dark uppercase tracking-wider">
+                                        Product Name
+                                    </th>
+                                    <th class="px-4 py-3 text-left text-xs font-bold text-brand-dark uppercase tracking-wider">
+                                        Current Categories
+                                    </th>
+                                    <th class="px-4 py-3 text-left text-xs font-bold text-brand-dark uppercase tracking-wider">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="product-list" class="bg-brand-white divide-y divide-brand-grey-light">
+                                <!-- Dynamic product rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Card View -->
+                <div id="product-card-view" class="hidden p-4">
+                    <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <!-- Dynamic product cards -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enhanced Modals -->
+<!-- Assignment Preview Modal -->
+<div id="assignment-preview-modal" class="hidden fixed inset-0 bg-brand-dark/70 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-brand-white rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-hidden">
+        <div class="px-6 py-4 border-b border-brand-grey-light">
+            <h3 class="text-lg font-bold text-brand-dark">Assignment Preview</h3>
+        </div>
+        <div class="p-6 overflow-y-auto">
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold text-brand-dark">Selected Category:</h4>
+                    <div id="preview-category" class="mt-1 text-brand-grey-medium"></div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-brand-dark">Products to Update:</h4>
+                    <div id="preview-products" class="mt-2 space-y-2 max-h-48 overflow-y-auto"></div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-brand-dark">Impact Summary:</h4>
+                    <div id="preview-impact" class="mt-1 text-sm text-brand-grey-medium"></div>
+                </div>
+            </div>
+        </div>
+        <div class="px-6 py-4 border-t border-brand-grey-light flex justify-end space-x-3">
+            <button id="cancel-assignment" class="btn-brand-ghost">Cancel</button>
+            <button id="confirm-assignment" class="btn-brand-primary">Confirm Assignment</button>
+        </div>
+    </div>
+</div>
+
+<!-- Progress Modal -->
+<div id="progress-modal" class="hidden fixed inset-0 bg-brand-dark/70 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-brand-white rounded-xl shadow-xl p-8 max-w-md w-full mx-4">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-red mx-auto"></div>
+            <h3 class="mt-4 text-lg font-semibold text-brand-dark">Processing Assignment</h3>
+            <p class="mt-2 text-brand-grey-medium">
+                <span id="progress-text">Updating products...</span>
+            </p>
+            <div class="mt-4 bg-brand-near-white rounded-full h-2">
+                <div id="progress-bar" class="bg-brand-red h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <p class="mt-2 text-sm text-brand-grey-medium">
+                <span id="progress-count">0</span> of <span id="progress-total">0</span> completed
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Notification Container -->
+<div id="notification-container" class="fixed top-4 right-4 space-y-2 z-40">
+    <!-- Dynamic notifications -->
+</div>
+
+<script src="/static/js/bulk-assign-enhanced.js"></script>
+{% endblock %}

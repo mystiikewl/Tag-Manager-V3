@@ -1,0 +1,607 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex h-screen bg-gray-50 font-sans text-gray-800">
+  <!-- Mobile Navigation Overlay -->
+  <div id="mobile-overlay" class="inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden"></div>
+
+  <!-- Enhanced Sidebar with Mobile Support -->
+  <div id="sidebar" class="inset-y-0 left-0 z-50 w-64 transform -translate-x-full transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:block">
+    {% include "components/sidebar.html" %}
+  </div>
+
+  <!-- Main Content Area -->
+  <!-- 
+    FIX: Removed 'w-full' and 'lg:w-auto' classes.
+    The 'flex-1' utility is sufficient for managing the width of this element within the parent flex container.
+    The explicit width classes were forcing the main content to take up the full viewport width, causing it to render underneath the sidebar.
+  -->
+  <main class="flex-1 flex flex-col min-h-0">
+    <!-- Enhanced Mobile Header with Hamburger Menu -->
+    <div class="bg-white border-b border-gray-200 px-4 sm:px-6 py-4 flex-shrink-0">
+      <div class="flex items-center justify-between">
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 -ml-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        
+        <!-- Mobile Title -->
+        <div class="lg:hidden flex items-center">
+          <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center mr-3">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a.997.997 0 01-1.414 0l-7-7A1.997 1.997 0 014 12V7a4 4 0 014-4z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold text-gray-900">Tag Manager</h1>
+            <p class="text-xs text-gray-500">Version 2.0</p>
+          </div>
+        </div>
+        
+        <!-- Mobile Right Sidebar Toggle -->
+        <button id="mobile-right-sidebar-btn" class="lg:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+          </svg>
+        </button>
+        
+        <!-- Desktop Product Header -->
+        <div class="hidden lg:block flex-1">
+          {% include "components/product_header.html" %}
+        </div>
+      </div>
+    </div>
+    
+    <!-- Main Content Container - Mobile Optimized -->
+    <div class="flex-grow overflow-y-auto min-h-0">
+      
+      <!-- Main Working Area with Mobile-First Grid Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-5 min-h-full">
+        <!-- Main Content Area - Full width on mobile, 80% on desktop -->
+        <div class="lg:col-span-4 w-full">
+          <div class="p-4 sm:p-6">
+            {% include "components/category_management.html" %}
+          </div>
+        </div>
+        
+        <!-- Right Sidebar - Hidden on mobile by default, shown on desktop -->
+        <div id="right-sidebar" class="hidden lg:block lg:col-span-1 bg-gray-50 border-l border-gray-200 min-h-0">
+          <div class="p-4 sm:p-6 h-full overflow-y-auto flex flex-col space-y-4 sm:space-y-6">
+            <!-- Quick Actions Card - Mobile Optimized -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-200 p-4 sm:p-6 flex-shrink-0">
+              <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                Quick Actions
+              </h3>
+              <div class="flex flex-col space-y-3">
+                <button id="quick-bulk-assign" class="w-full p-3 text-left rounded-lg border border-gray-200 hover:border-red-300 hover:bg-red-50 active:bg-red-100 transition-colors group touch-manipulation">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-sm sm:text-base font-medium text-gray-900 group-hover:text-red-700">Bulk Assignment</div>
+                      <div class="text-xs sm:text-sm text-gray-500">Manage multiple products</div>
+                    </div>
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </div>
+                </button>
+                
+                <button id="quick-export" class="w-full p-3 text-left rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 active:bg-blue-100 transition-colors group touch-manipulation">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-sm sm:text-base font-medium text-gray-900 group-hover:text-blue-700">Export Data</div>
+                      <div class="text-xs sm:text-sm text-gray-500">Download CSV report</div>
+                    </div>
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                    </svg>
+                  </div>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Statistics Card - Mobile Optimized -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-200 p-4 sm:p-6 flex-shrink-0">
+              <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+                Statistics
+              </h3>
+              <div class="flex flex-col space-y-3 sm:space-y-4">
+                <div id="stats-loading" class="animate-pulse">
+                  <div class="flex flex-col space-y-2 sm:space-y-3">
+                    <div class="h-3 sm:h-4 bg-gray-200 rounded w-3/4"></div>
+                    <div class="h-3 sm:h-4 bg-gray-200 rounded w-1/2"></div>
+                    <div class="h-3 sm:h-4 bg-gray-200 rounded w-5/6"></div>
+                  </div>
+                </div>
+                <div id="stats-content" class="hidden flex flex-col space-y-2 sm:space-y-3">
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs sm:text-sm text-gray-600">Total Products</span>
+                    <span id="total-products" class="text-sm sm:text-base font-semibold text-gray-900">--</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs sm:text-sm text-gray-600">Categorised</span>
+                    <span id="categorized-products" class="text-sm sm:text-base font-semibold text-green-600">--</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs sm:text-sm text-gray-600">Uncategorised</span>
+                    <span id="uncategorized-products" class="text-sm sm:text-base font-semibold text-red-600">--</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs sm:text-sm text-gray-600">Total Categories</span>
+                    <span id="total-categories" class="text-sm sm:text-base font-semibold text-gray-900">--</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Help & Tips Card - Mobile Optimized -->
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl border border-blue-200 p-4 sm:p-6 shadow-md flex-shrink-0">
+              <h3 class="text-base sm:text-lg font-semibold text-blue-900 mb-2 sm:mb-3 flex items-center">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Quick Tips
+              </h3>
+              <div class="flex flex-col space-y-2 text-xs sm:text-sm text-blue-800">
+                <div class="flex items-start">
+                  <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Select a product to view and manage its categories</span>
+                </div>
+                <div class="flex items-start">
+                  <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Use bulk assignment for managing multiple products efficiently</span>
+                </div>
+                <div class="flex items-start">
+                  <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Categories support 3-level hierarchy for better organisation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Bottom Section - Now part of scrollable content -->
+      <div class="bg-gray-50 border-t border-gray-200 p-4 sm:p-6 w-full">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <!-- Category Creation Section - Mobile Optimized -->
+          <div class="bg-white rounded-xl shadow-md border border-gray-200 p-4 sm:p-6">
+            <div class="flex justify-between items-start mb-3 sm:mb-4">
+              <div>
+                <h2 class="text-lg sm:text-xl font-bold text-gray-900 flex items-center">
+                  <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                  </svg>
+                  <span class="hidden sm:inline">Create New Category</span>
+                  <span class="sm:hidden">New Category</span>
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">Create new categories to organise your products. Categories can be organised in a three-level hierarchy.</p>
+              </div>
+            </div>
+            <button id="newCategoryBtn" class="w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-green-600 text-white text-sm sm:text-base font-semibold rounded-lg hover:bg-green-700 active:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors flex items-center justify-center touch-manipulation">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+              <span class="hidden sm:inline">New Category</span>
+              <span class="sm:hidden">Create</span>
+            </button>
+          </div>
+
+          <!-- Category Deletion Section - Mobile Optimized -->
+          <div class="bg-white rounded-xl shadow-md border border-gray-200 p-4 sm:p-6">
+            <div class="flex justify-between items-start mb-3 sm:mb-4">
+              <div>
+                <h2 class="text-lg sm:text-xl font-bold text-gray-900 flex items-center">
+                  <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H9a1 1 0 00-1 1v3M4 7h16"/>
+                  </svg>
+                  <span class="hidden sm:inline">Delete Category</span>
+                  <span class="sm:hidden">Delete</span>
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">Remove categories from your system. Deleting a category will also remove it from all products that have it assigned.</p>
+                <div class="mt-2 sm:mt-3 p-2 sm:p-3 bg-red-50 border border-red-200 rounded-lg">
+                  <p class="text-xs text-red-700 font-medium">⚠️ This action is irreversible and will affect all assigned products.</p>
+                </div>
+              </div>
+            </div>
+            <button id="deleteCategoryBtn" class="w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-red-600 text-white text-sm sm:text-base font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors flex items-center justify-center touch-manipulation">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H9a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+              <span class="hidden sm:inline">Delete Category</span>
+              <span class="sm:hidden">Delete</span>
+            </button>
+          </div>
+          
+          <!-- Data Management Section - Mobile Optimized -->
+          <div class="bg-white rounded-xl shadow-md border border-gray-200 p-4 sm:p-6">
+            <div class="flex justify-between items-start mb-3 sm:mb-4">
+              <div>
+                <h2 class="text-lg sm:text-xl font-bold text-gray-900 flex items-center">
+                  <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                  <span class="hidden sm:inline">Data Management</span>
+                  <span class="sm:hidden">Export</span>
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">Export your product categorization data or manage bulk operations efficiently.</p>
+              </div>
+            </div>
+            <div class="space-y-2 sm:space-y-3">
+              <button id="data-export-btn" class="w-full px-3 sm:px-4 py-2 sm:py-2 bg-blue-600 text-white text-sm sm:text-base font-semibold rounded-lg hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors flex items-center justify-center touch-manipulation">
+                <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <span class="hidden sm:inline">Export Data</span>
+                <span class="sm:hidden">Export</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- System Overview - Mobile Optimized -->
+          <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 p-4 sm:p-6">
+            <div class="flex items-start">
+              <div>
+                <h2 class="text-lg sm:text-xl font-bold text-gray-700 flex items-center">
+                  <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2-2V7a2 2 0 012-2h2a2 2 0 002 2v2a2 2 0 002 2h2a2 2 0 012-2V7a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 00-2 2h-2a2 2 0 00-2 2v6a2 2 0 01-2 2H9z"/>
+                  </svg>
+                  <span class="hidden sm:inline">System Overview</span>
+                  <span class="sm:hidden">Status</span>
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">Monitor your tag management system performance and health.</p>
+                <div class="mt-3 sm:mt-4 space-y-1 sm:space-y-2">
+                  <div class="flex items-center text-xs sm:text-sm">
+                    <div class="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                    <span class="text-gray-600">System Online</span>
+                  </div>
+                  <div class="flex items-center text-xs sm:text-sm">
+                    <div class="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
+                    <span class="text-gray-600">Database Connected</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile Right Sidebar Overlay -->
+    <div id="mobile-right-sidebar" class="fixed inset-y-0 right-0 z-50 w-80 max-w-full bg-white shadow-xl transform translate-x-full transition-transform duration-300 ease-in-out lg:hidden">
+      <div class="flex items-center justify-between p-4 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900">Quick Tools</h3>
+        <button id="close-right-sidebar" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="p-4 overflow-y-auto h-full pb-20">
+        <!-- Mobile Right Sidebar Content - Same as desktop but in overlay -->
+        <div class="space-y-6">
+          <!-- Quick Actions Card -->
+          <div class="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+              <svg class="w-5 h-5 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              Quick Actions
+            </h3>
+            <div class="flex flex-col space-y-3">
+              <button class="quick-bulk-assign-mobile w-full p-3 text-left rounded-lg border border-gray-200 hover:border-red-300 hover:bg-red-50 active:bg-red-100 transition-colors group touch-manipulation">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="font-medium text-gray-900 group-hover:text-red-700">Bulk Assignment</div>
+                    <div class="text-sm text-gray-500">Manage multiple products</div>
+                  </div>
+                  <svg class="w-5 h-5 text-gray-400 group-hover:text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </div>
+              </button>
+              
+              <button class="quick-export-mobile w-full p-3 text-left rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 active:bg-blue-100 transition-colors group touch-manipulation">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="font-medium text-gray-900 group-hover:text-blue-700">Export Data</div>
+                    <div class="text-sm text-gray-500">Download CSV report</div>
+                  </div>
+                  <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                  </svg>
+                </div>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Statistics Card -->
+          <div class="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+              <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+              Statistics
+            </h3>
+            <div class="flex flex-col space-y-4">
+              <div id="mobile-stats-loading" class="animate-pulse">
+                <div class="flex flex-col space-y-3">
+                  <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                  <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+                  <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+                </div>
+              </div>
+              <div id="mobile-stats-content" class="hidden flex flex-col space-y-3">
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-gray-600">Total Products</span>
+                  <span id="mobile-total-products" class="font-semibold text-gray-900">--</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-gray-600">Categorised</span>
+                  <span id="mobile-categorized-products" class="font-semibold text-green-600">--</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-gray-600">Uncategorised</span>
+                  <span id="mobile-uncategorized-products" class="font-semibold text-red-600">--</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-gray-600">Total Categories</span>
+                  <span id="mobile-total-categories" class="font-semibold text-gray-900">--</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>    
+      <!-- Modal Components -->
+      {% include "components/category_creation_modal.html" %}
+      {% include "components/category_deletion_modal.html" %}
+      {% include "components/success_message.html" %}
+  </main>
+</div>
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-5 rounded-lg shadow-xl flex flex-col items-center">
+      <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+      <p class="text-gray-700 text-lg font-semibold">Processing...</p>
+    </div>
+  </div>
+
+  <!-- Enhanced JavaScript for new features -->
+  <script>
+    // Enhanced page functionality with Mobile Support
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mobile Navigation Elements
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileRightSidebarBtn = document.getElementById('mobile-right-sidebar-btn');
+      const closeRightSidebarBtn = document.getElementById('close-right-sidebar');
+      const sidebar = document.getElementById('sidebar');
+      const mobileOverlay = document.getElementById('mobile-overlay');
+      const mobileRightSidebar = document.getElementById('mobile-right-sidebar');
+      
+      // Quick action handlers
+      const quickBulkAssign = document.getElementById('quick-bulk-assign');
+      const quickExport = document.getElementById('quick-export');
+      const exportBtn = document.getElementById('export-csv-btn');
+      
+      // Mobile Navigation Functions
+      function openLeftSidebar() {
+        sidebar.classList.remove('-translate-x-full');
+        mobileOverlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      
+      function closeLeftSidebar() {
+        sidebar.classList.add('-translate-x-full');
+        mobileOverlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+      
+      function openRightSidebar() {
+        mobileRightSidebar.classList.remove('translate-x-full');
+        mobileOverlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      
+      function closeRightSidebar() {
+        mobileRightSidebar.classList.add('translate-x-full');
+        mobileOverlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+      
+      // Mobile Menu Event Listeners
+      if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', openLeftSidebar);
+      }
+      
+      if (mobileRightSidebarBtn) {
+        mobileRightSidebarBtn.addEventListener('click', openRightSidebar);
+      }
+      
+      if (closeRightSidebarBtn) {
+        closeRightSidebarBtn.addEventListener('click', closeRightSidebar);
+      }
+      
+      if (mobileOverlay) {
+        mobileOverlay.addEventListener('click', function() {
+          closeLeftSidebar();
+          closeRightSidebar();
+        });
+      }
+      
+      // Handle window resize to close mobile menus on desktop
+      window.addEventListener('resize', function() {
+        if (window.innerWidth >= 1024) { // lg breakpoint
+          closeLeftSidebar();
+          closeRightSidebar();
+        }
+      });
+      
+      // Escape key to close mobile menus
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeLeftSidebar();
+          closeRightSidebar();
+        }
+      });
+      
+      // Mobile Quick Actions
+      const mobileQuickBulkAssign = document.querySelector('.quick-bulk-assign-mobile');
+      const mobileQuickExport = document.querySelector('.quick-export-mobile');
+      
+      if (mobileQuickBulkAssign) {
+        mobileQuickBulkAssign.addEventListener('click', () => {
+          window.location.href = '/bulk-assign';
+        });
+      }
+      
+      if (mobileQuickExport && exportBtn) {
+        mobileQuickExport.addEventListener('click', () => {
+          exportBtn.click();
+          closeRightSidebar();
+        });
+      }
+      
+      // Desktop Quick Actions
+      if (quickBulkAssign) {
+        quickBulkAssign.addEventListener('click', () => {
+          window.location.href = '/bulk-assign';
+        });
+      }
+      
+      if (quickExport && exportBtn) {
+        quickExport.addEventListener('click', () => {
+          exportBtn.click();
+        });
+      }
+      
+      // Connect data export button
+      const dataExportBtn = document.getElementById('data-export-btn');
+      if (dataExportBtn && exportBtn) {
+        dataExportBtn.addEventListener('click', () => {
+          exportBtn.click();
+        });
+      }
+      
+      // Load statistics
+      loadStatistics();
+    });
+    
+    // Import statistics manager for real-time statistics updates
+    async function loadStatisticsManager() {
+      try {
+        const { loadInitialStatistics } = await import('/static/js/utils/statisticsManager.js');
+        return { loadInitialStatistics };
+      } catch (error) {
+        console.error('Failed to load statistics manager:', error);
+        return null;
+      }
+    }
+    
+    // Statistics loading function with real API data
+    async function loadStatistics() {
+      const manager = await loadStatisticsManager();
+      if (manager) {
+        await manager.loadInitialStatistics();
+      } else {
+        // Fallback to show error
+        const statsLoading = document.getElementById('stats-loading');
+        const mobileStatsLoading = document.getElementById('mobile-stats-loading');
+        if (statsLoading) {
+          statsLoading.innerHTML = '<p class="text-sm text-red-600">Failed to load statistics module</p>';
+        }
+        if (mobileStatsLoading) {
+          mobileStatsLoading.innerHTML = '<p class="text-sm text-red-600">Failed to load statistics module</p>';
+        }
+      }
+    }
+    
+    // Enhanced FAB position management with Mobile Support
+    function adjustFABPosition() {
+      const fab = document.getElementById('fab-add-category-btn');
+      if (!fab) return;
+      
+      const viewportWidth = window.innerWidth;
+      
+      // Mobile positioning (hide right sidebar on mobile)
+      if (viewportWidth < 1024) {
+        fab.style.right = '1rem';
+        fab.style.bottom = '1rem';
+      }
+      // Desktop positioning with right sidebar consideration
+      else if (viewportWidth >= 1280) {
+        // Right sidebar is 20% of viewport, so we need to account for that
+        const rightSidebarWidth = Math.max(320, viewportWidth * 0.2); // Minimum 320px or 20% of viewport
+        fab.style.right = `${rightSidebarWidth + 24}px`; // Sidebar width + 24px margin
+        fab.style.bottom = '1.5rem';
+      } else {
+        // Tablet/small desktop
+        fab.style.right = '1.5rem';
+        fab.style.bottom = '1.5rem';
+      }
+    }
+    
+    // Apply FAB positioning on load and resize
+    window.addEventListener('load', adjustFABPosition);
+    window.addEventListener('resize', adjustFABPosition);
+    document.addEventListener('DOMContentLoaded', adjustFABPosition);
+    
+    // Touch gestures for mobile sidebar (optional enhancement)
+    let startX = null;
+    let startY = null;
+    
+    document.addEventListener('touchstart', function(e) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    });
+    
+    document.addEventListener('touchmove', function(e) {
+      if (!startX || !startY) return;
+      
+      const diffX = e.touches[0].clientX - startX;
+      const diffY = e.touches[0].clientY - startY;
+      
+      // Only handle horizontal swipes (more horizontal than vertical)
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+        // Right swipe from left edge (open left sidebar)
+        if (startX < 50 && diffX > 100 && window.innerWidth < 1024) {
+          const sidebar = document.getElementById('sidebar');
+          if (sidebar && sidebar.classList.contains('-translate-x-full')) {
+            document.getElementById('mobile-menu-btn').click();
+          }
+        }
+        
+        // Left swipe (close sidebars)
+        if (diffX < -100) {
+          const sidebar = document.getElementById('sidebar');
+          const rightSidebar = document.getElementById('mobile-right-sidebar');
+          if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
+            document.getElementById('mobile-overlay').click();
+          }
+          if (rightSidebar && !rightSidebar.classList.contains('translate-x-full')) {
+            document.getElementById('close-right-sidebar').click();
+          }
+        }
+      }
+      
+      startX = null;
+      startY = null;
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,405 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Custom .glass-panel is defined in tailwind.config.js via a plugin.
+  Custom gradient 'gradient-red' (used for bg-gradient-red) is also defined in tailwind.config.js.
+  The .gradient-border utility is also defined in tailwind.config.js.
+  Therefore, custom definitions here are not needed and have been removed.
+*/
+
+/* Custom animations for enhanced UX */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.4s ease-out forwards;
+}
+
+.animate-pulse-custom {
+  animation: pulse 0.4s ease-in-out;
+}
+
+.animate-bounceIn {
+  animation: bounceIn 0.5s ease-out forwards;
+}
+
+/* Enhanced category card states */
+.category-card-selected {
+  @apply ring-2 ring-blue-500 bg-blue-50 transform scale-105;
+  transition: all 0.2s ease-in-out;
+}
+
+.category-card-hover {
+  @apply transform -translate-y-0.5 shadow-lg border-blue-300;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Custom scrollbars for better UX */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-gray-100 rounded-full;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full hover:bg-gray-400;
+}
+
+/* Smooth transitions for all interactive elements */
+.interactive-element {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Focus states for accessibility */
+.focus-enhanced:focus {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* Custom CSS for Tag Manager V2 */
+
+/* Loading spinner animation */
+.loader {
+    border-top-color: #3498db;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Fade in animation for dynamic content */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Scale in animation for modals */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.3s ease-out;
+}
+
+/* Brand colors */
+.bg-brand-red {
+    background-color: #dc2626;
+}
+
+.bg-brand-red-dark {
+    background-color: #b91c1c;
+}
+
+.text-brand-red {
+    color: #dc2626;
+}
+
+.text-brand-white {
+    color: #ffffff;
+}
+
+.text-brand-dark {
+    color: #1f2937;
+}
+
+.text-brand-grey-medium {
+    color: #6b7280;
+}
+
+.bg-brand-white {
+    background-color: #ffffff;
+}
+
+.bg-brand-dark {
+    background-color: #1f2937;
+}
+
+.border-brand-grey-light {
+    border-color: #e5e7eb;
+}
+
+/* Enhanced FAB Styles */
+#enhanced-fab-container {
+    max-width: 280px;
+    min-width: 240px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#enhanced-fab-container .fab-shadow {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#fab-main-area {
+    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(229, 231, 235, 0.8);
+}
+
+#fab-header {
+    transition: background-color 0.2s ease-in-out;
+}
+
+#fab-header:hover {
+    background-color: rgba(249, 250, 251, 0.8);
+}
+
+#fab-expanded-content {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#fab-category-chips {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+#fab-category-chips::-webkit-scrollbar {
+    width: 4px;
+}
+
+#fab-category-chips::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#fab-category-chips::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 20px;
+}
+
+#fab-category-chips::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(156, 163, 175, 0.7);
+}
+
+/* FAB Category Chip animations */
+.fab-category-chip {
+    animation: chipSlideIn 0.3s ease-out;
+}
+
+@keyframes chipSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* Enhanced button hover effects */
+#fab-add-btn, #fab-add-category-btn {
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+#fab-add-btn:hover, #fab-add-category-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+#fab-add-btn:active, #fab-add-category-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+}
+
+/* Pulse animation for status indicator */
+.fab-status-pulse {
+    animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Mobile responsive adjustments for enhanced FAB */
+@media (max-width: 640px) {
+    #enhanced-fab-container {
+        max-width: calc(100vw - 2rem);
+        min-width: 200px;
+    }
+    
+    #fab-main-area {
+        font-size: 0.875rem;
+    }
+    
+    #fab-category-chips {
+        max-height: 80px;
+    }
+}
+
+/* Improved category tree styling */
+.category-tree-node {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.category-tree-node:hover {
+    background-color: rgba(249, 250, 251, 0.8);
+}
+
+/* Enhanced checkbox styling */
+.category-checkbox {
+    transition: all 0.2s ease-in-out;
+}
+
+.category-checkbox:checked {
+    background-color: #dc2626;
+    border-color: #dc2626;
+}
+
+.category-checkbox:focus {
+    ring-color: rgba(220, 38, 38, 0.5);
+    ring-width: 2px;
+}
+
+/* Smooth transitions for layout changes */
+.transition-layout {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced notification styles */
+.notification-success {
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.notification-error {
+    background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus styles for better accessibility */
+button:focus,
+select:focus,
+input:focus {
+    outline: 2px solid #dc2626;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    #fab-main-area {
+        background-color: #ffffff;
+        border: 2px solid #000000;
+    }
+    
+    .category-checkbox:checked {
+        background-color: #000000;
+        border-color: #000000;
+    }
+}

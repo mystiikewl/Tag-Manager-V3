@@ -1,0 +1,346 @@
+<!-- Category Management Component - Mobile Optimized -->
+<div class="bg-white rounded-xl shadow-md border border-gray-200 w-full h-full flex flex-col overflow-hidden">
+    <!-- Header Section - Mobile Optimized -->
+    <div class="flex justify-between items-center p-4 sm:p-6 border-b border-gray-100 flex-shrink-0">
+        <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Categories</h2>
+    </div>
+
+    <!-- Enhanced No Product Selected State - Mobile Optimized -->
+    <div id="no-product-selected-state" class="flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-8" style="display: block;">
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl border-2 border-dashed border-blue-200 p-4 sm:p-6 lg:p-12 text-center w-full max-w-none">
+            <div class="w-full">
+                <svg class="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 mx-auto text-blue-400 mb-3 sm:mb-4 lg:mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                </svg>
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 lg:mb-4">No Product Selected</h3>
+                <p class="text-gray-600 mb-4 sm:mb-6 lg:mb-8 leading-relaxed text-sm sm:text-base lg:text-lg max-w-3xl mx-auto">
+                    Choose a product from the sidebar to view and manage its categories. You can assign multiple categories to organize your products effectively.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-8 text-xs sm:text-sm lg:text-sm">
+                    <div class="bg-white rounded-lg p-3 sm:p-4 lg:p-6 border border-blue-200 shadow-sm">
+                        <div class="flex items-center mb-2 lg:mb-3">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-blue-600 mr-2 lg:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="font-semibold text-gray-900">Individual Management</span>
+                        </div>
+                        <p class="text-gray-600">Select products one by one for detailed category management and assignment.</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-3 sm:p-4 lg:p-6 border border-blue-200 shadow-sm">
+                        <div class="flex items-center mb-2 lg:mb-3">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-blue-600 mr-2 lg:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                            <span class="font-semibold text-gray-900">Bulk Operations</span>
+                        </div>
+                        <p class="text-gray-600">Use bulk assignment for managing multiple products at once efficiently.</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-3 sm:p-4 lg:p-6 border border-blue-200 shadow-sm sm:col-span-2 lg:col-span-1">
+                        <div class="flex items-center mb-2 lg:mb-3">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-blue-600 mr-2 lg:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a1.994 1.994 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                            </svg>
+                            <span class="font-semibold text-gray-900">3-Level Hierarchy</span>
+                        </div>
+                        <p class="text-gray-600">Organize categories in a structured three-level hierarchy for better organization.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current Categories - Product Selected State - Mobile Optimized -->
+    <div id="current-categories" class="space-y-3 p-4 sm:p-6 w-full flex-grow overflow-y-auto touch-manipulation" style="display: none;">
+        <!-- Container for selected categories display -->
+        <div id="selected-categories" class="mb-3 sm:mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
+            <p class="text-gray-500 text-sm italic">No categories selected</p>
+        </div>
+        
+        <!-- Category chips will be populated here by JavaScript -->
+    </div>
+
+    <!-- Add Category Button - Product Selected State -->
+    <div id="add-category-btn" class="p-4 sm:p-6 border-t border-gray-100 flex-shrink-0" style="display: none;">
+        <button class="w-full px-4 py-3 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors flex items-center justify-center touch-manipulation" onclick="showAddCategoryForm()">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            Add Category
+        </button>
+    </div>
+</div>
+
+    <!-- Category Tree Container - Mobile Optimized -->
+    <div id="category-tree" class="flex-grow overflow-y-auto p-4 sm:p-6 touch-manipulation">
+        <!-- Category tree will be rendered here by JavaScript -->
+        <p class="text-gray-500 text-center py-4 text-sm sm:text-base">Loading categories...</p>
+    </div>
+
+<!-- Simple Add Categories Button - Always Accessible -->
+<div id="add-categories-fab" class="fixed bottom-6 right-6 z-50 transition-all duration-300 ease-in-out" style="display: none;">
+    <div class="bg-white rounded-xl shadow-xl border border-gray-200 p-4 min-w-64 max-w-sm">
+        <!-- Product Info Header -->
+        <div class="flex items-center justify-between mb-3 pb-3 border-b border-gray-100">
+            <div class="flex items-center space-x-2 min-w-0 flex-1">
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse flex-shrink-0"></div>
+                <div class="min-w-0 flex-1">
+                    <p id="fab-product-name" class="text-sm font-semibold text-gray-900 truncate">Product Name</p>
+                    <p id="fab-selected-count" class="text-xs text-gray-500">0 categories selected</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Selected Categories Preview -->
+        <div id="fab-selected-categories" class="mb-3 space-y-1 max-h-20 overflow-y-auto">
+            <p class="text-xs text-gray-500 italic">Select categories from the tree above</p>
+        </div>
+        
+        <!-- Action Button -->
+        <button id="fab-add-categories-btn" class="w-full px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span id="fab-button-text">Add Categories</span>
+            <span id="fab-loading-spinner" class="hidden ml-2">
+                <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </span>
+        </button>
+    </div>
+</div>
+
+<!-- Simplified JavaScript for Add Categories functionality -->
+<script>
+// Simple state management for Add Categories FAB
+let currentProductId = null;
+let selectedCategories = new Set();
+
+// Initialize on DOM load
+document.addEventListener('DOMContentLoaded', function() {
+    initializeAddCategoriesFAB();
+});
+
+function initializeAddCategoriesFAB() {
+    // Subscribe to app state changes if available
+    if (typeof appState !== 'undefined') {
+        appState.subscribe(updateFABState);
+    }
+    
+    // Add event listener for the add button
+    const addBtn = document.getElementById('fab-add-categories-btn');
+    if (addBtn) {
+        addBtn.addEventListener('click', handleAddCategories);
+    }
+    
+    // Position FAB based on screen size
+    updateFABPosition();
+    window.addEventListener('resize', updateFABPosition);
+}
+
+function updateFABState(state) {
+    currentProductId = state.productId;
+    selectedCategories = new Set(state.categories || []);
+    
+    updateFABDisplay();
+    updateFABVisibility();
+}
+
+function updateFABDisplay() {
+    const productNameEl = document.getElementById('fab-product-name');
+    const selectedCountEl = document.getElementById('fab-selected-count');
+    const selectedCategoriesEl = document.getElementById('fab-selected-categories');
+    const addBtn = document.getElementById('fab-add-categories-btn');
+    
+    // Update product name
+    if (currentProductId && productNameEl) {
+        fetchProductName(currentProductId).then(name => {
+            productNameEl.textContent = name.length > 30 ? name.substring(0, 27) + '...' : name;
+        });
+    }
+    
+    // Update selected count
+    if (selectedCountEl) {
+        const count = selectedCategories.size;
+        selectedCountEl.textContent = `${count} categor${count === 1 ? 'y' : 'ies'} selected`;
+    }
+    
+    // Update selected categories preview
+    if (selectedCategoriesEl) {
+        updateSelectedCategoriesPreview();
+    }
+    
+    // Update button state
+    if (addBtn) {
+        addBtn.disabled = !currentProductId || selectedCategories.size === 0;
+    }
+}
+
+function updateSelectedCategoriesPreview() {
+    const selectedCategoriesEl = document.getElementById('fab-selected-categories');
+    if (!selectedCategoriesEl) return;
+    
+    if (selectedCategories.size === 0) {
+        selectedCategoriesEl.innerHTML = '<p class="text-xs text-gray-500 italic">Select categories from the tree above</p>';
+        return;
+    }
+    
+    selectedCategoriesEl.innerHTML = '';
+    
+    // Show up to 3 selected categories
+    const categoryArray = Array.from(selectedCategories);
+    const categoriesToShow = categoryArray.slice(0, 3);
+    
+    categoriesToShow.forEach(categoryId => {
+        const categoryEl = document.querySelector(`[data-category-id="${categoryId}"]`);
+        if (categoryEl) {
+            const categoryName = categoryEl.dataset.categoryName || 'Unknown';
+            const level = parseInt(categoryEl.dataset.level) || 1;
+            
+            const chip = document.createElement('div');
+            const levelColors = {
+                1: 'bg-blue-100 text-blue-800',
+                2: 'bg-red-100 text-red-800',
+                3: 'bg-green-100 text-green-800'
+            };
+            const colorClass = levelColors[level] || levelColors[1];
+            
+            chip.className = `inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${colorClass} mr-1 mb-1`;
+            chip.innerHTML = `
+                <span class="mr-1 font-bold">L${level}</span>
+                <span class="truncate max-w-20">${categoryName}</span>
+            `;
+            
+            selectedCategoriesEl.appendChild(chip);
+        }
+    });
+    
+    // Show "and X more" if there are more than 3
+    if (categoryArray.length > 3) {
+        const moreChip = document.createElement('div');
+        moreChip.className = 'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 mr-1 mb-1';
+        moreChip.textContent = `+${categoryArray.length - 3} more`;
+        selectedCategoriesEl.appendChild(moreChip);
+    }
+}
+
+function updateFABVisibility() {
+    const fabContainer = document.getElementById('add-categories-fab');
+    if (!fabContainer) return;
+    
+    if (currentProductId) {
+        fabContainer.style.display = 'block';
+    } else {
+        fabContainer.style.display = 'none';
+    }
+}
+
+async function handleAddCategories() {
+    if (!currentProductId || selectedCategories.size === 0) {
+        if (typeof showError === 'function') {
+            showError('Please select at least one category from the tree above.');
+        }
+        return;
+    }
+    
+    const addBtn = document.getElementById('fab-add-categories-btn');
+    const buttonText = document.getElementById('fab-button-text');
+    const loadingSpinner = document.getElementById('fab-loading-spinner');
+    
+    // Show loading state
+    if (addBtn) addBtn.disabled = true;
+    if (buttonText) buttonText.style.display = 'none';
+    if (loadingSpinner) loadingSpinner.classList.remove('hidden');
+    
+    try {
+        const categoryIds = Array.from(selectedCategories);
+        const response = await fetch(`/api/products/${currentProductId}/categories`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                category_ids: categoryIds 
+            })
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to add categories');
+        }
+        
+        // Show success message
+        if (typeof showSuccess === 'function') {
+            showSuccess('Categories added successfully!');
+        }
+        
+        // Clear selected categories
+        if (typeof appState !== 'undefined') {
+            appState.clearCategories();
+        } else {
+            selectedCategories.clear();
+            updateFABDisplay();
+        }
+        
+        // Refresh the product categories display
+        if (typeof displayProductCategories === 'function') {
+            const categoriesResponse = await fetch(`/api/products/${currentProductId}/categories`);
+            if (categoriesResponse.ok) {
+                const categories = await categoriesResponse.json();
+                displayProductCategories(categories);
+            }
+        }
+        
+    } catch (error) {
+        console.error('Failed to add categories:', error);
+        if (typeof showError === 'function') {
+            showError(`Failed to add categories: ${error.message}`);
+        }
+    } finally {
+        // Reset loading state
+        if (addBtn) addBtn.disabled = false;
+        if (buttonText) buttonText.style.display = 'inline';
+        if (loadingSpinner) loadingSpinner.classList.add('hidden');
+    }
+}
+
+function updateFABPosition() {
+    const fabContainer = document.getElementById('add-categories-fab');
+    if (!fabContainer) return;
+    
+    const viewportWidth = window.innerWidth;
+    
+    // Mobile positioning
+    if (viewportWidth < 1024) {
+        fabContainer.style.right = '1rem';
+        fabContainer.style.bottom = '1rem';
+    }
+    // Desktop positioning with right sidebar consideration
+    else if (viewportWidth >= 1280) {
+        const rightSidebarWidth = Math.max(320, viewportWidth * 0.2);
+        fabContainer.style.right = `${rightSidebarWidth + 24}px`;
+        fabContainer.style.bottom = '1.5rem';
+    } else {
+        fabContainer.style.right = '1.5rem';
+        fabContainer.style.bottom = '1.5rem';
+    }
+}
+
+async function fetchProductName(productId) {
+    try {
+        const response = await fetch(`/api/products/${productId}`);
+        if (response.ok) {
+            const product = await response.json();
+            return product.product_name || product.name || 'Unknown Product';
+        }
+    } catch (error) {
+        console.error('Error fetching product name:', error);
+    }
+    return 'Unknown Product';
+}
+
+// Make functions globally available for compatibility
+window.updateFABState = updateFABState;
+window.handleAddCategories = handleAddCategories;
+</script>

@@ -1,0 +1,28 @@
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "tailwind:build": "tailwindcss -i ./static/input.css -o ./static/output.css",
+    "tailwind:watch": "tailwindcss -i ./static/input.css -o ./static/output.css --watch",
+    "tailwind:prod": "tailwindcss -极 ./static/input.css -o ./static/output.css --minify",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^8.1.6",
+    "@storybook/addon-interactions": "^8.1.6",
+    "@storybook/addon-links": "^8.1.6",
+    "@storybook/blocks": "^8.1.6",
+    "@storybook/vue3-vite": "^8.1.6",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "vite": "^5.2.12"
+  },
+  "dependencies": {
+    "tailwindcss-border-gradients": "^2.0.3",
+    "vue": "^3.4.27"
+  }
+}

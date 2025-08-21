@@ -1,0 +1,57 @@
+<!-- Category Deletion Modal Component -->
+<div id="deleteCategoryModal" class="hidden fixed inset-0 bg-brand-dark/70 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+    <div class="relative bg-brand-white rounded-xl shadow-2xl p-8 border border-brand-grey-light w-full max-w-md mx-4 animate-scale-in">
+        <div>
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-brand-dark">Delete Category</h3>
+                <button id="cancelDeleteCategoryBtn" class="text-brand-grey-medium hover:text-brand-dark transition-colors p-1">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <div class="flex items-start">
+                    <svg class="w-5 h-5 text-red-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z" />
+                    </svg>
+                    <div>
+                        <h4 class="text-sm font-semibold text-red-800">Warning</h4>
+                        <p class="text-sm text-red-700 mt-1">This action cannot be undone. Deleting a category will also remove it from all products that have it assigned.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <form id="deleteCategoryForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-brand-dark mb-2">Select Category to Delete</label>
+                    <select id="deleteCategorySelect" class="input-brand" required>
+                        <option value="">Select category to delete...</option>
+                    </select>
+                </div>
+                
+                <div id="deleteCategoryInfo" class="hidden p-4 bg-gray-50 rounded-lg">
+                    <h4 class="text-sm font-semibold text-gray-700 mb-2">Category Information</h4>
+                    <div class="text-sm text-gray-600 space-y-1">
+                        <div><strong>Name:</strong> <span id="deleteCategoryName">-</span></div>
+                        <div><strong>Level:</strong> <span id="deleteCategoryLevel">-</span></div>
+                        <div><strong>Parent:</strong> <span id="deleteCategoryParent">-</span></div>
+                        <div><strong>Products Assigned:</strong> <span id="deleteCategoryProductCount">-</span></div>
+                        <div><strong>Child Categories:</strong> <span id="deleteCategoryChildCount">-</span></div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-6">
+                    <button type="button" id="cancelDeleteCategoryBtn2" class="btn-brand-ghost">Cancel</button>
+                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center disabled:opacity-50 disabled:cursor-not-allowed">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H9a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Delete Category
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> 
