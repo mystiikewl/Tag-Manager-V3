@@ -2,3 +2,4 @@
 /.kiro
 /.roo
 /.storybook
+.env
